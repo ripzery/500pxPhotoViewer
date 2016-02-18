@@ -58,6 +58,7 @@ public class MainFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
 
+        swipeContainer.setColorSchemeResources(R.color.colorAccent);
         swipeContainer.setOnRefreshListener(() -> loadImages(false));
 
         loadImages(true);
@@ -92,6 +93,7 @@ public class MainFragment extends Fragment {
                 if(dataEntities != null) {
                     final PhotoListAdapter adapter = new PhotoListAdapter(dataEntities);
                     recyclerView.setAdapter(adapter);
+                    
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     swipeContainer.setRefreshing(false);
                 }
