@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements MediaScannerConnection.Med
 
         if (isLoadFirstTime) {
 
-            progressDialog = ProgressDialog.show(Contextor.getInstance().getContext(), "Please wait", "Loading images", true, false);
+            progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading images", true, false);
 
             HttpImageObservableManager.getInstance().fetchAllImagesObservable().onErrorReturn(throwable -> {
                 progressDialog.hide();
@@ -121,7 +121,7 @@ public class MainFragment extends Fragment implements MediaScannerConnection.Med
                 return null;
             }).subscribe(dataEntities -> {
                 if (dataEntities != null) {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                     imageManager.setListImages(dataEntities);
                     photoAdapter = new PhotoListAdapter(dataEntities);
                     recyclerView.setAdapter(photoAdapter);
