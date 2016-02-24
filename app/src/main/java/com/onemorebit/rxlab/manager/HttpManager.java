@@ -2,13 +2,13 @@ package com.onemorebit.rxlab.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.onemorebit.rxlab.model.IPDao;
-import com.onemorebit.rxlab.model.ImageDao;
+import com.onemorebit.rxlab.model.dao.IPDao;
+import com.onemorebit.rxlab.model.dao.ImageDao;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -43,7 +43,8 @@ public class HttpManager {
 
     public interface ApiService{
         @GET("ip2") Observable<IPDao> getIP();
-        @GET("list") Observable<ImageDao> getImage();
+        @GET("list") Observable<ImageDao> getAllImage();
+        @GET("list/after/{id}") Observable<ImageDao> getImageAfterId(@Path("id") int id);
     }
 
 }

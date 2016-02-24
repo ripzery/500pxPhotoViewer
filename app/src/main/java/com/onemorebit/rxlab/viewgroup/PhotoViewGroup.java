@@ -1,7 +1,6 @@
 package com.onemorebit.rxlab.viewgroup;
 
 import android.content.Context;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import com.fenjuly.library.ArrowDownloadButton;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.onemorebit.rxlab.R;
 import com.onemorebit.rxlab.manager.ImageManager;
-import com.onemorebit.rxlab.model.ImageDao;
+import com.onemorebit.rxlab.model.dao.ImageDao;
 import com.panwrona.downloadprogressbar.library.DownloadProgressBar;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,6 +39,7 @@ public class PhotoViewGroup extends FrameLayout {
     private ImageDao.DataEntity imageDao;
     private DownloadProgressBar progressDownloader;
     private ArrowDownloadButton btnArrowDownload;
+    private ImageManager imageManager;
 
     public PhotoViewGroup(Context context) {
         super(context);
@@ -70,6 +70,7 @@ public class PhotoViewGroup extends FrameLayout {
         imageView = (ImageView) view.findViewById(R.id.ivPhoto);
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         tvDesc = (TextView) view.findViewById(R.id.tvDesc);
+        imageManager = new ImageManager(view.getContext());
         //progressDownloader = (DownloadProgressBar) view.findViewById(R.id.downloadProgressBar);
         btnArrowDownload = (ArrowDownloadButton) view.findViewById(R.id.btnArrowDownload);
         progress = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -79,7 +80,7 @@ public class PhotoViewGroup extends FrameLayout {
         });
 
         btnArrowDownload.setOnClickListener(v -> {
-            Observable<BaseDownloadTask> taskObservable = ImageManager.getInstance().getImageDownloaderObservable(imageDao);
+            Observable<BaseDownloadTask> taskObservable = imageManager.getImageDownloaderObservable(imageDao);
             btnArrowDownload.reset();
             btnArrowDownload.startAnimating();
             taskObservable.compose(applySchedulers())
@@ -112,7 +113,7 @@ public class PhotoViewGroup extends FrameLayout {
 
             /* download image */
 
-            Observable<BaseDownloadTask> taskObservable = ImageManager.getInstance().getImageDownloaderObservable(imageDao);
+            Observable<BaseDownloadTask> taskObservable = imageManager.getImageDownloaderObservable(imageDao);
 
             taskObservable.compose(applySchedulers())
                 .distinct(BaseDownloadTask::getSmallFileSoFarBytes)
@@ -155,7 +156,7 @@ public class PhotoViewGroup extends FrameLayout {
         tvTitle.setText(imageDao.caption);
         tvDesc.setText(imageDao.username);
 
-        if(ImageManager.getInstance().isHasFileInStorage(imageDao)){
+        if(imageManager.isHasFileInStorage(imageDao)){
             btnArrowDownload.setProgress(100);
             btnArrowDownload.setEnabled(false);
         }else{

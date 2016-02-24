@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+
 String getJavaHome(String version) {
   def stdout = new ByteArrayOutputStream()
   exec {
@@ -8,6 +9,7 @@ String getJavaHome(String version) {
   }
   return stdout.toString().trim()
 }
+
 android {
   compileSdkVersion 23
   buildToolsVersion "23.0.2"
@@ -29,7 +31,7 @@ android {
   defaultConfig {
     applicationId "com.onemorebit.rxlab"
     minSdkVersion 16
-    targetSdkVersion 23
+    targetSdkVersion 22
     versionCode 1
     versionName "1.0"
   }

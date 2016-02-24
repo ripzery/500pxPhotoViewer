@@ -1,4 +1,4 @@
-package com.onemorebit.rxlab.model;
+package com.onemorebit.rxlab.model.dao;
 
 /**
  * Created by Euro on 2/15/16 AD.

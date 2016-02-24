@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        //Observable<ImageDao> imageObv = HttpManager.getInstance().getNuuNeoiService().getImage();
+        MainActivity.this.initInstance();
+        //Observable<ImageDao> imageObv = HttpManager.getInstance().getNuuNeoiService().getAllImage();
 
         //RxView.clicks(mainActivityBinding.btnCallApi).subscribe(aVoid -> {
         //    imageObv

@@ -3,25 +3,16 @@ package com.onemorebit.rxlab.manager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.target.Target;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.onemorebit.rxlab.R;
-import com.onemorebit.rxlab.model.ImageDao;
+import com.onemorebit.rxlab.model.dao.ImageDao;
 import com.onemorebit.rxlab.util.Contextor;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 import rx.Observable;
 
 /**
@@ -30,17 +21,35 @@ import rx.Observable;
 public class ImageManager {
     private static final String TAG = "ImageManager";
     private static ImageManager ourInstance;
+    private List<ImageDao.DataEntity> listImages;
     private Context context;
 
-    public static ImageManager getInstance() {
-        if (ourInstance == null) {
-            ourInstance = new ImageManager();
-        }
-        return ourInstance;
+    public ImageManager(Context context) {
+        this.context = context;
     }
 
-    private ImageManager() {
-        context = Contextor.getInstance().getContext();
+    public List<ImageDao.DataEntity> getListImages() {
+        return listImages;
+    }
+
+    public void setListImages(List<ImageDao.DataEntity> listImages) {
+        this.listImages = listImages;
+    }
+
+    public void addListImagesAtTopPosition(List<ImageDao.DataEntity> listImages){
+        this.listImages.addAll(0, listImages);
+    }
+
+    public int getMaximumPhotoId(){
+        int maxId = listImages.get(0).id;
+
+        for(ImageDao.DataEntity image : listImages){
+            if(maxId < image.id){
+                maxId = image.id;
+            }
+        }
+
+        return maxId;
     }
 
     public Observable<BaseDownloadTask> getImageDownloaderObservable(ImageDao.DataEntity imageDao) {

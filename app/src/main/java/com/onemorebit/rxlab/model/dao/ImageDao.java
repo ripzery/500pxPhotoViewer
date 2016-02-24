@@ -1,4 +1,4 @@
-package com.onemorebit.rxlab.model;
+package com.onemorebit.rxlab.model.dao;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
@@ -31,6 +31,7 @@ public class ImageDao {
     @SerializedName("data") public List<DataEntity> data;
 
     public static class DataEntity {
+        @SerializedName("id") public int id;
         @SerializedName("link") public String link;
         @SerializedName("image_url") public String imageUrl;
         @SerializedName("caption") public String caption;

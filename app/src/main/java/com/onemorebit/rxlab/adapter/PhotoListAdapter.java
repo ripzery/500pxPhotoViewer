@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import com.onemorebit.rxlab.R;
-import com.onemorebit.rxlab.model.ImageDao;
+import com.onemorebit.rxlab.model.dao.ImageDao;
 import com.onemorebit.rxlab.viewgroup.PhotoViewGroup;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.MyHolder> {
 
-    private final List<ImageDao.DataEntity> dataEntities;
+    public List<ImageDao.DataEntity> dataEntities;
     private int lastPosition = -1;
 
     public PhotoListAdapter(List<ImageDao.DataEntity> dataEntities) {
@@ -44,6 +44,19 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.MyHo
             view.setAnimation(anim);
             lastPosition = position;
         }
+    }
+
+    public void increaseLastPositionBy(int increasePosition){
+        lastPosition += increasePosition;
+    }
+
+    public void setDataEntities(List<ImageDao.DataEntity> dataEntities) {
+        this.dataEntities = dataEntities;
+        notifyDataSetChanged();
+    }
+
+    public void addItemAtTopPosition(List<ImageDao.DataEntity> dataEntities){
+        dataEntities.addAll(0, dataEntities);
     }
 
     @Override public int getItemCount() {
