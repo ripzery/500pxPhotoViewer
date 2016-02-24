@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements MediaScannerConnection.Med
 
         if (isLoadFirstTime) {
 
-            progressDialog = ProgressDialog.show(getActivity(), "Please wait", "Loading images", true, false);
+            progressDialog = ProgressDialog.show(Contextor.getInstance().getContext(), "Please wait", "Loading images", true, false);
 
             HttpImageObservableManager.getInstance().fetchAllImagesObservable().onErrorReturn(throwable -> {
                 progressDialog.hide();
